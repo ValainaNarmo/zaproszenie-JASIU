@@ -23,7 +23,6 @@
         object-fit: cover;
         z-index: -1;
         filter: brightness(0.5);
-        transition: transform 0.1s;
     }
 
     /* Dialog */
@@ -38,9 +37,26 @@
     }
 
     .dialog {
-        font-size: 2em;
         margin-bottom: 50px;
         line-height: 1.5;
+    }
+
+    .dialog .intro,
+    .dialog .outro {
+        font-size: 2em;
+        opacity: 0.7;
+        text-align: center;
+    }
+
+    .dialog-middle {
+        font-size: 1.4em;
+        margin: 25px 0;
+        text-align: left;
+        padding: 0 15px;
+    }
+
+    .dialog-middle p {
+        margin: 12px 0;
     }
 
     .next-button {
@@ -60,18 +76,20 @@
         50% { transform: translateY(-15px); }
     }
 
-    /* Dwustronne zaproszenie */
+    /* Dwustronne zaproszenie - skalujące się */
     .invitation-container {
         display: none;
         justify-content: center;
         align-items: center;
         height: 100%;
         perspective: 1500px;
+        padding: 20px;
     }
 
     .invitation {
-        width: 300px;
-        height: 400px;
+        width: 90%;
+        max-width: 500px;
+        aspect-ratio: 500 / 650; /* zachowanie proporcji */
         cursor: pointer;
         transform-style: preserve-3d;
         transition: transform 1s;
@@ -91,10 +109,24 @@
         position: absolute;
         top: 0;
         left: 0;
+        object-fit: cover;
     }
 
     .invitation .back {
         transform: rotateY(180deg);
+    }
+
+    .invitation .back .address {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Book Antiqua", serif;
+        color: #4b7810;
+        font-size: 1.5em;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: underline;
     }
 </style>
 </head>
@@ -109,9 +141,15 @@
 <!-- Dialog -->
 <div class="dialog-container" id="dialogContainer">
     <div class="dialog">
-        <p><strong>Michał:</strong> Ej, kurna, co robimy z tym ślubem?</p>
-        <p><strong>Karina:</strong> Ja bym mogła wziąć z Tobą ślub, ale w lesie.</p>
-        <p><strong>Michał:</strong> O. Dobra. Także ten.</p>
+        <p class="intro"><em>Pewnego razu na warszawskiej Ochocie...</em></p>
+        
+        <div class="dialog-middle">
+            <p><strong>Michał:</strong> Ej, kurna, co robimy z tym ślubem?</p>
+            <p><strong>Karina:</strong> Ja bym mogła wziąć z Tobą ślub, ale w lesie.</p>
+            <p><strong>Michał:</strong> O. Dobra.</p>
+        </div>
+
+        <p class="outro"><em>Także ten...</em></p>
     </div>
     <div class="next-button" onclick="showInvitation()">
         <div class="arrow">⬇️</div>
@@ -132,14 +170,6 @@ function showInvitation() {
     document.getElementById('dialogContainer').style.display = 'none';
     document.getElementById('invitationContainer').style.display = 'flex';
 }
-
-// Interaktywny ruch tła według myszki
-const background = document.querySelector('.background-video');
-document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    background.style.transform = `translate(${-x}px, ${-y}px)`;
-});
 </script>
 
 </body>
